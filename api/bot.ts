@@ -20,18 +20,7 @@ bot.on('message', async ctx => {
       }
       const orders = chars[i].match(/[0-9]*/g);
 
-      const splited = [];
-      const length = charCodes[0].length;
-      const groups = Math.ceil(length / 4);
-
-      for(let j = 0; j < groups; j++){
-        splited.push(charCodes[0].substring(j * 4, (j + 1) * 4));
-      }
-
-      for(let j = 0; j < splited.length; j++){
-        if (j !== splited.length - 1) result.push(xiaohe.get(splited[j])?.values().toArray()[0] || splited[j]);
-        else result.push(xiaohe.get(splited[j])?.values().toArray()[(orders ? Number(orders[0]) : 1) - 1] || splited[j]);
-      }
+      result.push(xiaohe.get(charCodes[i])?.values().toArray()[(orders ? Number(orders[0]) : 1) - 1] || charCodes[i]);
     }
 
     await ctx.reply(result.join(''), {
