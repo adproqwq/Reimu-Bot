@@ -29,8 +29,8 @@ bot.on('message', async ctx => {
       }
 
       for(let j = 0; j < splited.length; j++){
-        if (j !== splited.length - 1) result.push(xiaohe.get(splited[j])?.values().toArray()[0] || chars[j]);
-        else result.push(xiaohe.get(splited[j])?.values().toArray()[(orders ? Number(orders[0]) : 1) - 1] || chars[j]);
+        if (j !== splited.length - 1) result.push(xiaohe.get(splited[j])?.values().toArray()[0] || splited[j]);
+        else result.push(xiaohe.get(splited[j])?.values().toArray()[(orders ? Number(orders[0]) : 1) - 1] || splited[j]);
       }
     }
 
