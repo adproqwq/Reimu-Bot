@@ -1,4 +1,4 @@
-import { Bot } from 'grammy';
+import { Bot, webhookCallback } from 'grammy';
 import xiaohe from './dicts/xiaohe';
 
 if (!process.env.BOT_TOKEN) throw new Error('BOT_TOKEN is unset');
@@ -22,3 +22,5 @@ bot.on('message', async ctx => {
     });
   }
 });
+
+export default webhookCallback(bot, 'https');
