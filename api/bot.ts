@@ -12,15 +12,15 @@ bot.on('message', async ctx => {
     const result: string[] = [];
 
     for(let i = 1; i < chars.length; i++){
-      const charCodes = chars[i].match(/[a-z]*/g);
+      const charCodes = chars[i].match(/[a-z]+/g);
 
       if(!charCodes){
         result.push(chars[i]);
         continue;
       }
-      const orders = chars[i].match(/[0-9]*/g);
+      const orders = chars[i].match(/[0-9]+/g);
 
-      result.push(xiaohe.get(charCodes[i])?.values().toArray()[(orders ? Number(orders[0]) : 1) - 1] || charCodes[i]);
+      result.push(xiaohe.get(charCodes[i])!.values().toArray()[(orders ? Number(orders[0]) : 1) - 1] || charCodes[i]);
     }
 
     await ctx.reply(result.join(''), {
