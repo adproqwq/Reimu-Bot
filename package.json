@@ -1,9 +1,14 @@
 {
+	"type": "module",
+	"scripts": {
+		"build": "tsc"
+	},
 	"devDependencies": {
 		"@types/node": "^24.0.13",
 		"typescript": "^5.8.3"
 	},
 	"dependencies": {
 		"grammy": "^1.37.0"
-	}
+	},
+	"packageManager": "pnpm@10.13.1"
 }
