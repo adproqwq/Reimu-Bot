@@ -15,7 +15,7 @@ bot.on('message', async ctx => {
       result.push(xiaohe.get(chars[i]) || chars[i]);
     }
 
-    await ctx.reply(result.join(), {
+    await ctx.reply(result.join(''), {
       reply_parameters: {
         message_id: ctx.message.message_id,
       },
