@@ -20,7 +20,7 @@ bot.on('message', async ctx => {
       }
       const orders = chars[i].match(/[0-9]+/g);
 
-      result.push(xiaohe.get(charCodes[i])!.values().toArray()[(orders ? Number(orders[0]) : 1) - 1] || charCodes[i]);
+      result.push(xiaohe.get(charCodes[0])!.values().toArray()[(orders ? Number(orders[0]) : 1) - 1] || charCodes[i]);
     }
 
     await ctx.reply(result.join(''), {
