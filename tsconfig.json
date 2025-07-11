@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["ESNext"],
-    "module": "esnext",
     "rootDir": "./api",
     "moduleResolution": "node",
     "resolveJsonModule": true,
