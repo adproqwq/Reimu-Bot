@@ -1,7 +1,7 @@
 import { defineConfig } from 'rolldown';
 
 export default defineConfig({
-  input: './api/bot.ts',
+  input: './src/bot.ts',
   output: {
     dir: "./api",
   },
