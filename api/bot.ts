@@ -24,8 +24,8 @@ bot.on('message', async ctx => {
       let text: string;
       try{
         text = xiaohe.get(charCodes[0])!.values().toArray()[(orders ? Number(orders[0]) : 1) - 1] || charCodes[i];
-      } catch{
-        text = '';
+      } catch(e){
+        text = `好像坏掉了呢喵！怎么办喵！快去找主人啊喵！\n告诉主人这个哦喵：${e}`;
       }
       result.push(text);
     }
