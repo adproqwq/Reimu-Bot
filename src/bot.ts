@@ -46,6 +46,7 @@ bot.on('message', async ctx => {
 
   if(message.startsWith('*小鹤')) result = await xiaohe(message);
   else if(message.startsWith('*hc')) result = await hc(message);
+  else return;
 
   try{
     await ctx.reply(result.join(''), {
