@@ -11,7 +11,7 @@ await bot.api.setMyCommands([
 ]);
 
 bot.command(['xiaohe', 'xh', 'xhyx'], async ctx => {
-  const message = ctx.match;
+  const message = ctx.msg.text;
   const result = await xiaohe(message);
 
   try{
@@ -26,7 +26,7 @@ bot.command(['xiaohe', 'xh', 'xhyx'], async ctx => {
 });
 
 bot.command('hc', async ctx => {
-  const message = ctx.match;
+  const message = ctx.msg.text;
   const result = await hc(message);
 
   try{
