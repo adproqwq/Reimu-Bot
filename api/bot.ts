@@ -34,15 +34,19 @@ bot.on('message', async ctx => {
       }
     }
 
-    await ctx.reply(result.join(''), {
-      reply_parameters: {
-        message_id: ctx.message.message_id,
-      },
-    });
+    try{
+      await ctx.reply(result.join(''), {
+        reply_parameters: {
+          message_id: ctx.message.message_id,
+        },
+      });
+    } catch{
+      bot.api.sendMessage(ctx.chatId, '消息找不到了喵！');
+    }
   }
   else if(message.startsWith('*hc')){
     const chars = message.split(' ');
-    const result: string[] = [];
+    let result: string[] = [];
 
     for(let i = 1; i < chars.length; i++){
       const charCodes = chars[i].match(/[a-z]+/g);
@@ -55,18 +59,26 @@ bot.on('message', async ctx => {
 
       let text: string;
       try{
-        text = hc.get(charCodes[0])!.values().toArray()[(orders ? Number(orders[0]) : 1) - 1] || charCodes[i];
+        if(!hc.get(charCodes[0])) text = charCodes[i];
+        else text = hc.get(charCodes[0])!.values().toArray()[(orders ? Number(orders[0]) : 1) - 1];
+
+        result.push(text);
       } catch(e){
         text = `好像坏掉了呢喵！怎么办喵！快去找主人啊喵！\n告诉主人这个哦喵：${e}`;
+        result = [text];
+        break;
       }
-      result.push(text);
     }
 
-    await ctx.reply(result.join(''), {
-      reply_parameters: {
-        message_id: ctx.message.message_id,
-      },
-    });
+    try{
+      await ctx.reply(result.join(''), {
+        reply_parameters: {
+          message_id: ctx.message.message_id,
+        },
+      });
+    } catch{
+      bot.api.sendMessage(ctx.chatId, '消息找不到了喵！');
+    }
   }
 });
 
