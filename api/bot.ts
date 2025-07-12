@@ -41,7 +41,7 @@ bot.on('message', async ctx => {
         },
       });
     } catch{
-      bot.api.sendMessage(ctx.chatId, '消息找不到了喵！');
+      bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
     }
   }
   else if(message.startsWith('*hc')){
@@ -77,7 +77,7 @@ bot.on('message', async ctx => {
         },
       });
     } catch{
-      bot.api.sendMessage(ctx.chatId, '消息找不到了喵！');
+      bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
     }
   }
 });
