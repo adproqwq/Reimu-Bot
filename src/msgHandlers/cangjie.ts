@@ -5,7 +5,7 @@ export default async (message: string): Promise<string[]> => {
   let result: string[] = [];
 
   for(let i = 1; i < chars.length; i++){
-    const charCodes = chars[i].match(/[a-z]+/g);
+    const charCodes = chars[i].match(/(&)?[a-z]*/g);
 
     if(!charCodes){
       result.push(chars[i]);
