@@ -12,7 +12,7 @@ await bot.api.setMyCommands([
 
 bot.command(['xiaohe', 'xh', 'xhyx'], async ctx => {
   const message = ctx.match;
-  const result = await xiaohe(bot, message);
+  const result = await xiaohe(message);
 
   try{
     await ctx.reply(result.join(''), {
@@ -27,7 +27,7 @@ bot.command(['xiaohe', 'xh', 'xhyx'], async ctx => {
 
 bot.command('hc', async ctx => {
   const message = ctx.match;
-  const result = await hc(bot, message);
+  const result = await hc(message);
 
   try{
     await ctx.reply(result.join(''), {
@@ -44,8 +44,8 @@ bot.on('message', async ctx => {
   const message = ctx.message.text || '';
   let result: string[] = [];
 
-  if(message.startsWith('*小鹤')) result = await xiaohe(bot, message);
-  else if(message.startsWith('*hc')) result = await hc(bot, message);
+  if(message.startsWith('*小鹤')) result = await xiaohe(message);
+  else if(message.startsWith('*hc')) result = await hc(message);
 
   try{
     await ctx.reply(result.join(''), {

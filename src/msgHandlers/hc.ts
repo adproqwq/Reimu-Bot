@@ -1,7 +1,6 @@
-import { Bot, Context, Api, RawApi } from 'grammy';
 import hc from '../dicts/hc';
 
-export default async (bot: Bot<Context, Api<RawApi>>, message: string): Promise<string[]> => {
+export default async (message: string): Promise<string[]> => {
   const chars = message.split(' ');
   let result: string[] = [];
 
