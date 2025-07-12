@@ -14,9 +14,9 @@ await bot.api.setMyCommands([
 ]);
 
 bot.command('help', async ctx => {
-  const help = `- 小鹤音形 xiaohe xh xhyx
-- hc hc
-- 五笔98 wubi98 wb98`;
+  const help = `- 小鹤音形 xiaohe xh xhyx *小鹤
+- hc hc *hc
+- 五笔98 wubi98 wb98 *五笔98`;
   await ctx.reply(help, {
     reply_parameters: {
       message_id: ctx.msgId,
