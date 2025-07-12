@@ -2,10 +2,8 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "rootDir": "./api",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "outDir": "./build",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "strict": true,
