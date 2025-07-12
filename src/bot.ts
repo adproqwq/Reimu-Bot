@@ -1,5 +1,4 @@
-import { Bot, webhookCallback, InlineQueryResultBuilder } from 'grammy';
-import type { InlineQueryResultArticle } from 'grammy/types';
+import { Bot, webhookCallback } from 'grammy';
 import xiaohe from './msgHandlers/xiaohe';
 import hc from './msgHandlers/hc';
 import wubi98 from './msgHandlers/wubi98';
@@ -88,25 +87,6 @@ bot.on('message', async ctx => {
   } catch{
     bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
   }
-});
-
-bot.on('inline_query', async ctx => {
-  const message = ctx.inlineQuery.query || '';
-  let result: string[] = [];
-  let inlineResult: InlineQueryResultArticle;
-
-  if(message.startsWith('*小鹤')) result = await xiaohe(message);
-  else if(message.startsWith('*hc')) result = await hc(message);
-  else if(message.startsWith('*五笔98')) result = await wubi98(message);
-  else return;
-
-  try{
-    inlineResult = InlineQueryResultBuilder.article('id-0', '结果').text(result.join(''));
-  } catch{
-    inlineResult = InlineQueryResultBuilder.article('id-0', '结果').text('总之就是我不知道你在说什么喵！');
-  }
-
-  await ctx.answerInlineQuery([inlineResult]);
 });
 
 export default webhookCallback(bot, 'https');
