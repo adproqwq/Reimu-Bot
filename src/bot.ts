@@ -7,10 +7,22 @@ if (!process.env.BOT_TOKEN) throw new Error('BOT_TOKEN is unset');
 const bot = new Bot(process.env.BOT_TOKEN);
 
 await bot.api.setMyCommands([
+  { command: 'help', description: '帮助' },
   { command: 'xiaohe', description: '小鹤音形' },
   { command: 'hc', description: 'hc' },
   { command: 'wubi98', description: '五笔98' },
 ]);
+
+bot.command('help', async ctx => {
+  const help = `- 小鹤音形 xiaohe xh xhyx
+- hc hc
+- 五笔98 wubi98 wb98`;
+  await ctx.reply(help, {
+    reply_parameters: {
+      message_id: ctx.msgId,
+    },
+  });
+});
 
 bot.command(['xiaohe', 'xh', 'xhyx'], async ctx => {
   const message = ctx.msg.text;
