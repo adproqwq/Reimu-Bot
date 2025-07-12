@@ -1,84 +1,60 @@
 import { Bot, webhookCallback } from 'grammy';
-import xiaohe from './dicts/xiaohe';
-import hc from './dicts/hc';
+import xiaohe from './msgHandlers/xiaohe';
+import hc from './msgHandlers/hc';
 
 if (!process.env.BOT_TOKEN) throw new Error('BOT_TOKEN is unset');
 const bot = new Bot(process.env.BOT_TOKEN);
 
+await bot.api.setMyCommands([
+  { command: "xiaohe", description: "小鹤" },
+  { command: "hc", description: "hc" },
+]);
+
+bot.command(['xiaohe', 'xh', 'xhyx'], async ctx => {
+  const message = ctx.match;
+  const result = await xiaohe(bot, message);
+
+  try{
+    await ctx.reply(result.join(''), {
+      reply_parameters: {
+        message_id: ctx.msgId,
+      },
+    });
+  } catch{
+    bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
+  }
+});
+
+bot.command('hc', async ctx => {
+  const message = ctx.match;
+  const result = await hc(bot, message);
+
+  try{
+    await ctx.reply(result.join(''), {
+      reply_parameters: {
+        message_id: ctx.msgId,
+      },
+    });
+  } catch{
+    bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
+  }
+});
+
 bot.on('message', async ctx => {
   const message = ctx.message.text || '';
+  let result: string[] = [];
 
-  if(message.startsWith('*小鹤')){
-    const chars = message.split(' ');
-    let result: string[] = [];
+  if(message.startsWith('*小鹤')) result = await xiaohe(bot, message);
+  else if(message.startsWith('*hc')) result = await hc(bot, message);
 
-    for(let i = 1; i < chars.length; i++){
-      const charCodes = chars[i].match(/[a-z]+/g);
-
-      if(!charCodes){
-        result.push(chars[i]);
-        continue;
-      }
-      const orders = chars[i].match(/[0-9]+/g);
-
-      let text: string;
-      try{
-        if(!xiaohe.get(charCodes[0])) text = charCodes[i];
-        else text = xiaohe.get(charCodes[0])!.values().toArray()[(orders ? Number(orders[0]) : 1) - 1];
-
-        result.push(text);
-      } catch(e){
-        text = `好像坏掉了呢喵！怎么办喵！快去找主人啊喵！\n告诉主人这个哦喵：${e}`;
-        result = [text];
-        break;
-      }
-    }
-
-    try{
-      await ctx.reply(result.join(''), {
-        reply_parameters: {
-          message_id: ctx.message.message_id,
-        },
-      });
-    } catch{
-      bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
-    }
-  }
-  else if(message.startsWith('*hc')){
-    const chars = message.split(' ');
-    let result: string[] = [];
-
-    for(let i = 1; i < chars.length; i++){
-      const charCodes = chars[i].match(/[a-z]+/g);
-
-      if(!charCodes){
-        result.push(chars[i]);
-        continue;
-      }
-      const orders = chars[i].match(/[0-9]+/g);
-
-      let text: string;
-      try{
-        if(!hc.get(charCodes[0])) text = charCodes[i];
-        else text = hc.get(charCodes[0])!.values().toArray()[(orders ? Number(orders[0]) : 1) - 1];
-
-        result.push(text);
-      } catch(e){
-        text = `好像坏掉了呢喵！怎么办喵！快去找主人啊喵！\n告诉主人这个哦喵：${e}`;
-        result = [text];
-        break;
-      }
-    }
-
-    try{
-      await ctx.reply(result.join(''), {
-        reply_parameters: {
-          message_id: ctx.message.message_id,
-        },
-      });
-    } catch{
-      bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
-    }
+  try{
+    await ctx.reply(result.join(''), {
+      reply_parameters: {
+        message_id: ctx.message.message_id,
+      },
+    });
+  } catch{
+    bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
   }
 });
 
