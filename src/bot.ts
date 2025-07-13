@@ -13,7 +13,6 @@ await bot.api.setMyCommands([
   { command: 'xiaohe', description: '小鹤音形' },
   { command: 'hc', description: 'hc' },
   { command: 'cangjie', description: '仓颉' },
-  { command: 'zhengma', description: '郑码' },
   { command: 'wubi86', description: '五笔86' },
   { command: 'wubi98', description: '五笔98' },
 ]);
@@ -36,9 +35,14 @@ bot.command(['xiaohe', 'xh', 'xhyx'], async ctx => {
   const result = await xiaohe(message);
 
   try{
+    let messageId: number;
+
+    if(ctx.msg.reply_to_message) messageId = ctx.msg.reply_to_message.message_id;
+    else messageId = ctx.msgId;
+
     await ctx.reply(result.join(''), {
       reply_parameters: {
-        message_id: ctx.msgId,
+        message_id: messageId,
       },
     });
   } catch{
@@ -51,9 +55,14 @@ bot.command('hc', async ctx => {
   const result = await hc(message);
 
   try{
+    let messageId: number;
+
+    if(ctx.msg.reply_to_message) messageId = ctx.msg.reply_to_message.message_id;
+    else messageId = ctx.msgId;
+
     await ctx.reply(result.join(''), {
       reply_parameters: {
-        message_id: ctx.msgId,
+        message_id: messageId,
       },
     });
   } catch{
@@ -66,9 +75,14 @@ bot.command(['cangjie', 'cj'], async ctx => {
   const result = await cangjie(message);
 
   try{
+    let messageId: number;
+
+    if(ctx.msg.reply_to_message) messageId = ctx.msg.reply_to_message.message_id;
+    else messageId = ctx.msgId;
+
     await ctx.reply(result.join(''), {
       reply_parameters: {
-        message_id: ctx.msgId,
+        message_id: messageId,
       },
     });
   } catch{
@@ -81,9 +95,14 @@ bot.command(['wubi86', 'wb86'], async ctx => {
   const result = await wubi86(message);
 
   try{
+    let messageId: number;
+
+    if(ctx.msg.reply_to_message) messageId = ctx.msg.reply_to_message.message_id;
+    else messageId = ctx.msgId;
+
     await ctx.reply(result.join(''), {
       reply_parameters: {
-        message_id: ctx.msgId,
+        message_id: messageId,
       },
     });
   } catch{
@@ -96,9 +115,14 @@ bot.command(['wubi98', 'wb98'], async ctx => {
   const result = await wubi98(message);
 
   try{
+    let messageId: number;
+
+    if(ctx.msg.reply_to_message) messageId = ctx.msg.reply_to_message.message_id;
+    else messageId = ctx.msgId;
+
     await ctx.reply(result.join(''), {
       reply_parameters: {
-        message_id: ctx.msgId,
+        message_id: messageId,
       },
     });
   } catch{
@@ -118,9 +142,14 @@ bot.on('message', async ctx => {
   else return;
 
   try{
+    let messageId: number;
+
+    if(ctx.message.reply_to_message) messageId = ctx.message.reply_to_message.message_id;
+    else messageId = ctx.message.message_id;
+
     await ctx.reply(result.join(''), {
       reply_parameters: {
-        message_id: ctx.message.message_id,
+        message_id: messageId,
       },
     });
   } catch{
