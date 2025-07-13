@@ -143,53 +143,51 @@ bot.on('message', async ctx => {
   const message = ctx.message.text || '';
   let result: string[] = [];
 
-  if(message.startsWith('*小鹤')) result = await xiaohe(message);
-  else if(message.startsWith('*hc')) result = await hc(message);
-  else if(message.startsWith('*仓颉')) result = await cangjie(message);
-  else if(message.startsWith('*五笔86')) result = await wubi86(message);
-  else if(message.startsWith('*五笔98')) result = await wubi98(message);
-  else return;
+  if(message.startsWith('*')){
+    if(message.startsWith('*小鹤')) result = await xiaohe(message);
+    else if(message.startsWith('*hc')) result = await hc(message);
+    else if(message.startsWith('*仓颉')) result = await cangjie(message);
+    else if(message.startsWith('*五笔86')) result = await wubi86(message);
+    else if(message.startsWith('*五笔98')) result = await wubi98(message);
+    else return;
 
-  try{
-    let messageId: number;
+    try{
+      let messageId: number;
 
-    if(ctx.message.reply_to_message) messageId = ctx.message.reply_to_message.message_id;
-    else messageId = ctx.message.message_id;
+      if(ctx.message.reply_to_message) messageId = ctx.message.reply_to_message.message_id;
+      else messageId = ctx.message.message_id;
 
-    await ctx.reply(result.join(''), {
-      reply_parameters: {
-        message_id: messageId,
-      },
-    });
-  } catch{
-    bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
+      await ctx.reply(result.join(''), {
+        reply_parameters: {
+          message_id: messageId,
+        },
+      });
+    } catch{
+      bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
+    }
   }
-});
+  else if(message.startsWith('-')){
+    if(message.startsWith('-小鹤')) result = new Reverse(message).reverse('xiaohe');
+    else if(message.startsWith('-hc')) result = new Reverse(message).reverse('hc');
+    else if(message.startsWith('-仓颉')) result = new Reverse(message).reverse('cangjie');
+    else if(message.startsWith('-五笔86')) result = new Reverse(message).reverse('wubi86');
+    else if(message.startsWith('-五笔98')) result = new Reverse(message).reverse('wubi98');
+    else return;
 
-bot.on('message', async ctx => {
-  const message = ctx.message.text || '';
-  let result: string[] = [];
+    try{
+      let messageId: number;
 
-  if(message.startsWith('-小鹤')) result = new Reverse(message).reverse('xiaohe');
-  else if(message.startsWith('-hc')) result = new Reverse(message).reverse('hc');
-  else if(message.startsWith('-仓颉')) result = new Reverse(message).reverse('cangjie');
-  else if(message.startsWith('-五笔86')) result = new Reverse(message).reverse('wubi86');
-  else if(message.startsWith('-五笔98')) result = new Reverse(message).reverse('wubi98');
-  else return;
+      if(ctx.message.reply_to_message) messageId = ctx.message.reply_to_message.message_id;
+      else messageId = ctx.message.message_id;
 
-  try{
-    let messageId: number;
-
-    if(ctx.message.reply_to_message) messageId = ctx.message.reply_to_message.message_id;
-    else messageId = ctx.message.message_id;
-
-    await ctx.reply(result.join(' '), {
-      reply_parameters: {
-        message_id: messageId,
-      },
-    });
-  } catch{
-    bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
+      await ctx.reply(result.join(' '), {
+        reply_parameters: {
+          message_id: messageId,
+        },
+      });
+    } catch{
+      bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
+    }
   }
 });
 
