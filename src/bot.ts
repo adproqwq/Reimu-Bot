@@ -4,6 +4,7 @@ import hc from './msgHandlers/hc';
 import cangjie from './msgHandlers/cangjie';
 import wubi86 from './msgHandlers/wubi86';
 import wubi98 from './msgHandlers/wubi98';
+import xiaoheReverse from './reverse/xiaoheReverse';
 
 if (!process.env.BOT_TOKEN) throw new Error('BOT_TOKEN is unset');
 const bot = new Bot(process.env.BOT_TOKEN);
@@ -18,11 +19,15 @@ await bot.api.setMyCommands([
 ]);
 
 bot.command('help', async ctx => {
-  const help = `- 小鹤音形 xiaohe xh xhyx *小鹤
+  const help = `码->文：
+- 小鹤音形 xiaohe xh xhyx *小鹤
 - hc hc *hc
 - 仓颉 cangjie cj *仓颉
 - 五笔86 wubi86 wb86 *五笔86
-- 五笔98 wubi98 wb98 *五笔98`;
+- 五笔98 wubi98 wb98 *五笔98
+
+字->码：
+- 小鹤音形 -小鹤`;
   await ctx.reply(help, {
     reply_parameters: {
       message_id: ctx.msgId,
@@ -139,6 +144,8 @@ bot.on('message', async ctx => {
   else if(message.startsWith('*仓颉')) result = await cangjie(message);
   else if(message.startsWith('*五笔86')) result = await wubi86(message);
   else if(message.startsWith('*五笔98')) result = await wubi98(message);
+
+  else if(message.startsWith('-小鹤')) result = await xiaoheReverse(message);
   else return;
 
   try{
