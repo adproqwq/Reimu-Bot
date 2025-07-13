@@ -4,7 +4,7 @@ import hc from './msgHandlers/hc';
 import cangjie from './msgHandlers/cangjie';
 import wubi86 from './msgHandlers/wubi86';
 import wubi98 from './msgHandlers/wubi98';
-import xiaoheReverse from './reverse/xiaoheReverse';
+import { Reverse } from './reverse/Reverse';
 
 if (!process.env.BOT_TOKEN) throw new Error('BOT_TOKEN is unset');
 const bot = new Bot(process.env.BOT_TOKEN);
@@ -27,7 +27,11 @@ bot.command('help', async ctx => {
 - 五笔98 wubi98 wb98 *五笔98
 
 字->码：
-- 小鹤音形 -小鹤`;
+- 小鹤音形 -小鹤
+- hc -hc
+- 仓颉 -仓颉
+- 五笔86 -五笔86
+- 五笔98 -五笔98`;
   await ctx.reply(help, {
     reply_parameters: {
       message_id: ctx.msgId,
@@ -144,8 +148,6 @@ bot.on('message', async ctx => {
   else if(message.startsWith('*仓颉')) result = await cangjie(message);
   else if(message.startsWith('*五笔86')) result = await wubi86(message);
   else if(message.startsWith('*五笔98')) result = await wubi98(message);
-
-  else if(message.startsWith('-小鹤')) result = await xiaoheReverse(message);
   else return;
 
   try{
@@ -155,6 +157,33 @@ bot.on('message', async ctx => {
     else messageId = ctx.message.message_id;
 
     await ctx.reply(result.join(''), {
+      reply_parameters: {
+        message_id: messageId,
+      },
+    });
+  } catch{
+    bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
+  }
+});
+
+bot.on('message', async ctx => {
+  const message = ctx.message.text || '';
+  let result: string[] = [];
+
+  if(message.startsWith('-小鹤')) result = new Reverse(message).reverse('xiaohe');
+  else if(message.startsWith('-hc')) result = new Reverse(message).reverse('hc');
+  else if(message.startsWith('-仓颉')) result = new Reverse(message).reverse('cangjie');
+  else if(message.startsWith('-五笔86')) result = new Reverse(message).reverse('wubi86');
+  else if(message.startsWith('-五笔98')) result = new Reverse(message).reverse('wubi98');
+  else return;
+
+  try{
+    let messageId: number;
+
+    if(ctx.message.reply_to_message) messageId = ctx.message.reply_to_message.message_id;
+    else messageId = ctx.message.message_id;
+
+    await ctx.reply(result.join(' '), {
       reply_parameters: {
         message_id: messageId,
       },
