@@ -1,0 +1,52 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      - run: pnpm ci
+      - name: Build
+        run: pnpm build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source
+          path: |
+            dist/*.js
+            package.json
+            package-lock.json
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: source
+          path: dist/
+      - name: Deploy
+        uses: easingthemes/ssh-deploy@v5
+        env:
+          SOURCE: "dist package.json package-lock.json"
+          ARGS: "--delete -az"
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+          TARGET: "/home/Reimu_Bot/"
+          SCRIPT_AFTER: |
+            cd /home/Reimu_Bot/
+            pnpm i --omit=dev
+            systemctl start reimu
