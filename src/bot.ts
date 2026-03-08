@@ -1,6 +1,5 @@
 import { Bot, webhookCallback } from 'grammy';
 import xiaohe from './msgHandlers/xiaohe';
-import hc from './msgHandlers/hc';
 import cangjie from './msgHandlers/cangjie';
 import wubi86 from './msgHandlers/wubi86';
 import { Reverse } from './reverse/Reverse';
@@ -18,7 +17,6 @@ export default {
     await bot.api.setMyCommands([
       { command: 'help', description: '帮助' },
       { command: 'xiaohe', description: '小鹤音形' },
-      { command: 'hc', description: 'hc' },
       { command: 'cangjie', description: '仓颉' },
       { command: 'wubi86', description: '五笔86' },
     ]);
@@ -26,13 +24,11 @@ export default {
     bot.command('help', async ctx => {
       const help = `码->文：
 - 小鹤音形 xiaohe xh xhyx *小鹤
-- hc hc *hc
 - 仓颉 cangjie cj *仓颉
 - 五笔86 wubi86 wb86 *五笔86
 
 字->码：
 - 小鹤音形 -小鹤
-- hc -hc
 - 仓颉 -仓颉
 - 五笔86 -五笔86`;
       await ctx.reply(help, {
@@ -45,26 +41,6 @@ export default {
     bot.command(['xiaohe', 'xh', 'xhyx'], async ctx => {
       const message = ctx.msg.text;
       const result = await xiaohe(message);
-
-      try{
-        let messageId: number;
-
-        if(ctx.msg.reply_to_message) messageId = ctx.msg.reply_to_message.message_id;
-        else messageId = ctx.msgId;
-
-        await ctx.reply(result.join(''), {
-          reply_parameters: {
-            message_id: messageId,
-          },
-        });
-      } catch{
-        bot.api.sendMessage(ctx.chatId, '总之就是我不知道你在说什么喵！');
-      }
-    });
-
-    bot.command('hc', async ctx => {
-      const message = ctx.msg.text;
-      const result = await hc(message);
 
       try{
         let messageId: number;
@@ -128,7 +104,6 @@ export default {
 
       if(message.startsWith('*')){
         if(message.startsWith('*小鹤')) result = await xiaohe(message);
-        else if(message.startsWith('*hc')) result = await hc(message);
         else if(message.startsWith('*仓颉')) result = await cangjie(message);
         else if(message.startsWith('*五笔86')) result = await wubi86(message);
         else return;
@@ -150,7 +125,6 @@ export default {
       }
       else if(message.startsWith('-')){
         if(message.startsWith('-小鹤')) result = new Reverse(message).reverse('xiaohe');
-        else if(message.startsWith('-hc')) result = new Reverse(message).reverse('hc');
         else if(message.startsWith('-仓颉')) result = new Reverse(message).reverse('cangjie');
         else if(message.startsWith('-五笔86')) result = new Reverse(message).reverse('wubi86');
         else return;

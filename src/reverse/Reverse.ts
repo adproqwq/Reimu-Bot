@@ -1,5 +1,4 @@
 import xiaohe from '../dicts/xiaohe';
-import hc from '../dicts/hc';
 import cangjie from '../dicts/cangjie';
 import wubi86 from '../dicts/wubi86';
 
@@ -7,7 +6,6 @@ export class Reverse {
   private msg: string;
   private types: Map<string, Map<string, Set<string>>> = new Map([
     ['xiaohe', xiaohe],
-    ['hc', hc],
     ['cangjie', cangjie],
     ['wubi86', wubi86],
   ]);
