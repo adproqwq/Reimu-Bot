@@ -4279,18 +4279,15 @@ function timeoutIfNecessary(task, onTimeout, timeout) {
 var bot_default = { async fetch(request, env, ctx) {
 	if (!env.BOT_TOKEN) throw new Error("BOT_TOKEN is unset");
 	const bot = new Bot(env.BOT_TOKEN, { botInfo: JSON.parse(env.BOT_INFO) });
-	await bot.api.setMyCommands([{
-		command: "help",
-		description: "帮助"
-	}]);
 	bot.command("help", async (ctx) => {
 		await ctx.reply(`暂时不知道用来干什么喵`, { reply_parameters: { message_id: ctx.msgId } });
 	});
 	bot.on("message", async (ctx) => {
-		if ((ctx.message.text || "") === "qwqa") try {
+		if ((ctx.message.text || "").toLowerCase() === "qwqa") try {
 			let messageId;
 			if (ctx.message.reply_to_message) messageId = ctx.message.reply_to_message.message_id;
 			else messageId = ctx.message.message_id;
+			await ctx.react("🥰");
 			await ctx.reply("qwqa", { reply_parameters: { message_id: messageId } });
 		} catch {
 			bot.api.sendMessage(ctx.chatId, "Someone tells Aone there are some problems with my codes");

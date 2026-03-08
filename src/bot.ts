@@ -10,10 +10,6 @@ export default {
     if (!env.BOT_TOKEN) throw new Error('BOT_TOKEN is unset');
     const bot = new Bot(env.BOT_TOKEN, { botInfo: JSON.parse(env.BOT_INFO) });
 
-    await bot.api.setMyCommands([
-      { command: 'help', description: '帮助' },
-    ]);
-
     bot.command('help', async ctx => {
       const help = `暂时不知道用来干什么喵`;
       await ctx.reply(help, {
