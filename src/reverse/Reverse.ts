@@ -2,7 +2,6 @@ import xiaohe from '../dicts/xiaohe';
 import hc from '../dicts/hc';
 import cangjie from '../dicts/cangjie';
 import wubi86 from '../dicts/wubi86';
-import wubi98 from '../dicts/wubi98';
 
 export class Reverse {
   private msg: string;
@@ -11,7 +10,6 @@ export class Reverse {
     ['hc', hc],
     ['cangjie', cangjie],
     ['wubi86', wubi86],
-    ['wubi98', wubi98],
   ]);
 
   constructor(message: string){
