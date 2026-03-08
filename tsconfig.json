@@ -8,6 +8,10 @@
     "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true,
+    "types": [
+			"./worker-configuration.d.ts",
+			"node"
+		]
   },
   "exclude": ["./rolldown.config.ts"]
 }
