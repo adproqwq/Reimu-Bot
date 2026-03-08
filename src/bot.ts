@@ -7,7 +7,7 @@ export interface Env {
 
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response>{
-    if (!env.BOT_TOKEN) throw new Error('BOT_TOKEN is unset');
+    if (!env.BOT_TOKEN) throw new Error('BOT_TOKEN unset');
     const bot = new Bot(env.BOT_TOKEN, { botInfo: JSON.parse(env.BOT_INFO) });
 
     bot.command('help', async ctx => {
@@ -22,7 +22,7 @@ export default {
     bot.on('message', async ctx => {
       const message = ctx.message.text || '';
 
-      if(message.toLowerCase() === 'qwqa'){
+      if(message.toLowerCase().includes('qwqa')){
         try{
           let messageId: number;
 
