@@ -26,13 +26,14 @@ export default {
     bot.on('message', async ctx => {
       const message = ctx.message.text || '';
 
-      if(message === 'qwqa'){
+      if(message.toLowerCase() === 'qwqa'){
         try{
           let messageId: number;
 
           if(ctx.message.reply_to_message) messageId = ctx.message.reply_to_message.message_id;
           else messageId = ctx.message.message_id;
 
+          await ctx.react('🥰');
           await ctx.reply('qwqa', {
             reply_parameters: {
               message_id: messageId,
