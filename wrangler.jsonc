@@ -5,7 +5,7 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "reimu-bot",
-	"main": "src/bot.ts",
+	"main": "api/bot.js",
 	"compatibility_date": "2025-09-27",
 	"observability": {
 		"enabled": true
