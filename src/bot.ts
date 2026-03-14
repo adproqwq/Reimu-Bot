@@ -39,6 +39,22 @@ export default {
           bot.api.sendMessage(ctx.chatId, 'Someone tells Aone there are some problems with my codes');
         }
       }
+      if(message.includes('摸摸') || message.toLowerCase().includes('rua')){
+        try{
+          let messageId: number;
+
+          if(ctx.message.reply_to_message) messageId = ctx.message.reply_to_message.message_id;
+          else messageId = ctx.message.message_id;
+
+          await ctx.reply('rua!', {
+            reply_parameters: {
+              message_id: messageId,
+            },
+          });
+        } catch{
+          bot.api.sendMessage(ctx.chatId, 'Someone tells Aone there are some problems with my codes');
+        }
+      }
     });
 
     return webhookCallback(bot, 'cloudflare-mod')(request);
